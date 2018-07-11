@@ -38,7 +38,7 @@ Enemy.prototype.render = function() {
 var Player = function() {
     this.sprite = 'images/char-boy.png';
     this.x = 202;
-    this.y = 270;
+    this.y = 570;
 };
 
 // Update the enemy's position, required method for game
@@ -53,6 +53,32 @@ Player.prototype.update = function(dt) {
 Player.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
+
+Player.prototype.handleInput = function(keyPressed) {
+  switch (keyPressed) {
+    case "left":
+      if(this.x !== 0) {
+        this.x -= 101;
+      }
+      break;
+    case "right":
+      if(this.x !== 404) {
+        this.x += 101;
+      }
+      break;
+    case "down":
+      if (this.y !== 570) {
+        this.y += 83;
+      }
+      break;
+    case "up":
+      if (this.y !== -11) {
+        this.y -= 83;
+      }
+      break;
+
+  }
+}
 
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
