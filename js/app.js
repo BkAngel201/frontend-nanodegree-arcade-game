@@ -22,12 +22,27 @@ Enemy.prototype.update = function(dt) {
       this.x = (Math.random() * (-550 - (-101)) + (-101));
       this.speed = (Math.random() * (5 - 1) + 1) * 100;
     }
+
+    this.handleCollision(player);
 };
 
 // Draw the enemy on the screen, required method for game
 Enemy.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
+
+Enemy.prototype.handleCollision = function(playerObject) {
+    const imageWidth = 101;
+    const imageHeight = 83;
+    const imageAreaTransparent = 88;
+
+    if(this.x < (playerObject.x + imageWidth) &&
+      (this.x + imageWidth) > playerObject.x  &&
+      (this.y - imageAreaTransparent) < (playerObject.y - imageAreaTransparent + imageHeight) &&
+      (this.y - imageAreaTransparent + imageHeight) > (playerObject.y - imageAreaTransparent)) {
+      console.log("collision");
+    }
+}
 
 // Now write your own player class
 // This class requires an update(), render() and
@@ -49,7 +64,7 @@ Player.prototype.update = function(dt) {
     // all computers.
 };
 
-// Draw the enemy on the screen, required method for game
+// Draw the player on the screen, required method for game
 Player.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
