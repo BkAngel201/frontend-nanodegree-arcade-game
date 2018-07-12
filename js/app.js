@@ -1,5 +1,5 @@
 // Enemies our player must avoid
-var Enemy = function(posYAxisPixel = 0) {
+var Enemy = function(posYAxisPixel = -11) {
     // Variables applied to each of our instances go here,
     // we've provided one for you to get started
 
@@ -98,7 +98,7 @@ Player.prototype.handleInput = function(keyPressed) {
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
-const allEnemies = [new Enemy()];
+const allEnemies = [new Enemy(72), new Enemy(155), new Enemy(238), new Enemy(321), new Enemy(404), new Enemy(487)];
 const player = new Player();
 
 
