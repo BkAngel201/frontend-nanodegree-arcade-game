@@ -32,7 +32,7 @@ Enemy.prototype.render = function() {
 };
 
 Enemy.prototype.handleCollision = function(playerObject) {
-    const imageWidth = 101;
+    const imageWidth = 75;
     const imageHeight = 83;
     const imageAreaTransparent = 88;
 
@@ -40,7 +40,7 @@ Enemy.prototype.handleCollision = function(playerObject) {
       (this.x + imageWidth) > playerObject.x  &&
       (this.y - imageAreaTransparent) < (playerObject.y - imageAreaTransparent + imageHeight) &&
       (this.y - imageAreaTransparent + imageHeight) > (playerObject.y - imageAreaTransparent)) {
-      console.log("collision");
+      playerObject.resetPosition();
     }
 }
 
@@ -68,6 +68,11 @@ Player.prototype.update = function(dt) {
 Player.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
+
+Player.prototype.resetPosition = function() {
+    this.x = 202;
+    this.y = 570;
+}
 
 Player.prototype.handleInput = function(keyPressed) {
   switch (keyPressed) {
