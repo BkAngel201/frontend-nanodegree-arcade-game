@@ -65,7 +65,9 @@ var Player = function() {
 };
 
 Player.prototype.update = function(dt) {
-
+    if (this.y === -11) {
+      this.reachFinalLine();
+    }
 };
 
 // Draw the player on the screen, required method for game
@@ -77,6 +79,11 @@ Player.prototype.render = function() {
 Player.prototype.resetPosition = function() {
     this.x = 202;
     this.y = 570;
+}
+
+Player.prototype.reachFinalLine = function() {
+  console.log("u got it");
+  this.resetPosition();
 }
 
 // handle what key is pressend and what to do in every case
