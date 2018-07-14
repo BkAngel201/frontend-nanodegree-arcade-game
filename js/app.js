@@ -46,9 +46,9 @@ Enemy.prototype.handleCollision = function(playerObject) {
       (this.x + imageWidth) > playerObject.x  &&
       (this.y - imageAreaTransparent) < (playerObject.y - imageAreaTransparent + imageHeight) &&
       (this.y - imageAreaTransparent + imageHeight) > (playerObject.y - imageAreaTransparent)) {
-
-      // when they touch each other we reset the position of the player
-      playerObject.resetPosition();
+        alert("One of the Enemies has touch You. \nSo you Lose the Game.");
+        // when they touch each other we reset the position of the player
+        playerObject.resetPosition();
     }
 }
 
@@ -82,7 +82,7 @@ Player.prototype.resetPosition = function() {
 }
 
 Player.prototype.reachFinalLine = function() {
-  console.log("u got it");
+  alert("You have Reached the water. \nCongratulations, You Win.");
   this.resetPosition();
 }
 
