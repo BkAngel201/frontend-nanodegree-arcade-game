@@ -1,6 +1,18 @@
-frontend-nanodegree-arcade-game
-===============================
+# Frogger Game
 
-Students should use this [rubric](https://review.udacity.com/#!/projects/2696458597/rubric) for self-checking their submission. Make sure the functions you write are **object-oriented** - either class functions (like Player and Enemy) or class prototype functions such as Enemy.prototype.checkCollisions, and that the keyword 'this' is used appropriately within your class and class prototype functions to refer to the object the function is called upon. Also be sure that the **readme.md** file is updated with your instructions on both how to 1. Run and 2. Play your arcade game.
+This game objective is to reach the final line (Water) without touch any enemy (Lady Bird Beetle).
 
-For detailed instructions on how to get started, check out this [guide](https://docs.google.com/document/d/1v01aScPjSWCCWQLIpFqvg3-vXLH2e8_SZQKC8jNO0Dc/pub?embedded=true).
+# Game Mechanics
+ - Always will be only one single enemy (Lady Bird Beetle) per line, but be careful when any enemy goes out of the screen the next one could be even faster ... or maybe not???
+ - The player can move in all 4 directions **left**, **right**, **up** and **down**, but when it reaches any border it wouldn't able to continue going in that direction.
+ -  The player only has 1 live so if he touches an enemy the game will be over, and the player will lose.
+ -  The player only can win if it reaches the final line(Water) without colliding with an enemy.
+
+# Upcoming Features
+- Change character
+- Collect gems
+- Different Levels with different mechanics
+- Unlock Achievements
+- Special abilities to the characters
+
+**Developed by a Proud Udacity and Grow with Google Scholarship Student, and Future Web Developer**
