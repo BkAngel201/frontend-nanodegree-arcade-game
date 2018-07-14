@@ -1,3 +1,23 @@
+'use strict'
+
+const gameConfig = {
+    player: {
+        initialX: 202,
+        initialY: 570
+    },
+    collision: {
+        imageWidth: 75,             // correcting the with of the imagen for realistic collisions when the graphics touch each other
+        imageHeight: 83,            // the height of the graphic part of the image
+        imageAreaTransparent: 88    // the height of the image that is transparent and we would'nt use to test for collision
+    },
+    board: {
+        squareWidth: 101,
+        squareHeight: 83,
+        squareInitialY : [-11, 72, 155, 238, 321, 404, 487, 570],
+        squareInitialX : [0, 101, 202, 303, 404]
+    }
+}
+
 // Enemies our player must avoid
 var Enemy = function(posYAxisPixel = -11) {
     // Variables applied to each of our instances go here,
@@ -35,17 +55,15 @@ Enemy.prototype.update = function(dt) {
 Enemy.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
+
 // test if the player and the enemy are colliding
 Enemy.prototype.handleCollision = function(playerObject) {
-    const imageWidth = 75;   // correcting the with of the imagen for realistic collisions when the graphics touch each other
-    const imageHeight = 83;  // the height of the graphic part of the image
-    const imageAreaTransparent = 88; // the height of the image that is transparent and we would'nt use to test for collision
 
     // this if test if any part of both square are colliding, idea taken from MDN, and optimized for this case
-    if(this.x < (playerObject.x + imageWidth) &&
-      (this.x + imageWidth) > playerObject.x  &&
-      (this.y - imageAreaTransparent) < (playerObject.y - imageAreaTransparent + imageHeight) &&
-      (this.y - imageAreaTransparent + imageHeight) > (playerObject.y - imageAreaTransparent)) {
+    if(this.x < (playerObject.x + gameConfig.collision.imageWidth) &&
+      (this.x + gameConfig.collision.imageWidth) > playerObject.x  &&
+      (this.y - gameConfig.collision.imageAreaTransparent) < (playerObject.y - gameConfig.collision.imageAreaTransparent + gameConfig.collision.imageHeight) &&
+      (this.y - gameConfig.collision.imageAreaTransparent + gameConfig.collision.imageHeight) > (playerObject.y - gameConfig.collision.imageAreaTransparent)) {
         alert("One of the Enemies has touch You. \nSo you Lose the Game.");
         // when they touch each other we reset the position of the player
         playerObject.resetPosition();
@@ -60,12 +78,12 @@ Enemy.prototype.handleCollision = function(playerObject) {
 // Our player
 var Player = function() {
     this.sprite = 'images/char-boy.png';
-    this.x = 202;
-    this.y = 570;
+    this.x = gameConfig.player.initialX;
+    this.y = gameConfig.player.initialY;
 };
 
 Player.prototype.update = function(dt) {
-    if (this.y === -11) {
+    if (this.y === gameConfig.board.squareInitialY[0]) {
       this.reachFinalLine();
     }
 };
@@ -77,8 +95,8 @@ Player.prototype.render = function() {
 
 // reset the player position to the inital position
 Player.prototype.resetPosition = function() {
-    this.x = 202;
-    this.y = 570;
+    this.x = gameConfig.player.initialX;
+    this.y = gameConfig.player.initialY;
 }
 
 Player.prototype.reachFinalLine = function() {
@@ -92,23 +110,23 @@ Player.prototype.handleInput = function(keyPressed) {
     // the if inside every case is to prevent the player going out of the screen, every side has it limit
     // the movement is 83px vertically and 101px horizontally
     case "left":
-      if(this.x !== 0) {
-        this.x -= 101;
+      if(this.x !== gameConfig.board.squareInitialX[0]) {
+        this.x -= gameConfig.board.squareWidth;
       }
       break;
     case "right":
-      if(this.x !== 404) {
-        this.x += 101;
+      if(this.x !== gameConfig.board.squareInitialX[gameConfig.board.squareInitialX.length - 1]) {
+        this.x += gameConfig.board.squareWidth;
       }
       break;
     case "down":
-      if (this.y !== 570) {
-        this.y += 83;
+      if (this.y !== gameConfig.board.squareInitialY[gameConfig.board.squareInitialY.length - 1]) {
+        this.y += gameConfig.board.squareHeight;
       }
       break;
     case "up":
-      if (this.y !== -11) {
-        this.y -= 83;
+      if (this.y !== gameConfig.board.squareInitialY[0]) {
+        this.y -= gameConfig.board.squareHeight;
       }
       break;
 
@@ -118,7 +136,13 @@ Player.prototype.handleInput = function(keyPressed) {
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
-const allEnemies = [new Enemy(72), new Enemy(155), new Enemy(238), new Enemy(321), new Enemy(404), new Enemy(487)];
+const allEnemies = [];
+for(let valueY in gameConfig.board.squareInitialY) {
+    if(valueY != 0 && valueY != gameConfig.board.squareInitialY.length-1) {
+        allEnemies.push(new Enemy(gameConfig.board.squareInitialY[valueY]));
+    }
+}
+
 const player = new Player();
 
 
