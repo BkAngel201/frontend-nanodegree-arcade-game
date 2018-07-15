@@ -73,6 +73,7 @@ Enemy.prototype.handleCollision = function(playerObject) {
       (this.y - gameConfig.collision.imageAreaTransparent) < (playerObject.y - gameConfig.collision.imageAreaTransparent + gameConfig.collision.imageHeight) &&
       (this.y - gameConfig.collision.imageAreaTransparent + gameConfig.collision.imageHeight) > (playerObject.y - gameConfig.collision.imageAreaTransparent)) {
         playerObject.hearts --;
+        console.log(playerObject.hearts);
         playerObject.updateHearts();
         // when they touch each other we reset the position of the player
         playerObject.resetPosition();
@@ -121,11 +122,19 @@ Player.prototype.updateHearts = function() {
         }
     }
     gameConfig.htmlObjects.heartCounter.innerHTML = heartContent;
+    if (this.hearts === 0) {
+        this.gameOver();
+    }
 }
 
 Player.prototype.reachFinalLine = function() {
   alert("You have Reached the water. \nCongratulations, You Win.");
   this.resetPosition();
+}
+
+Player.prototype.gameOver = function() {
+    alert("All your lives are gone. \nWe are sorry, you Lose.");
+    this.resetPosition();
 }
 
 // test if the player and an object are colliding
