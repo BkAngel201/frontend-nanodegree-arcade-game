@@ -134,7 +134,7 @@ Player.prototype.reachFinalLine = function() {
 
 Player.prototype.gameOver = function() {
     alert("All your lives are gone. \nWe are sorry, you Lose.");
-    this.resetPosition();
+    location.reload();
 }
 
 // test if the player and an object are colliding
