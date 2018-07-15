@@ -150,6 +150,7 @@ Player.prototype.handleObjectCollision = function(objectArray, positionX, positi
             default:
         }
     }
+    return allowedToMove;
 }
 
 // handle what key is pressend and what to do in every case
@@ -161,26 +162,30 @@ Player.prototype.handleInput = function(keyPressed) {
         // the movement is 83px vertically and 101px horizontally
         case "left":
             if(this.x !== gameConfig.board.squareInitialX[0]) {
-                this.handleObjectCollision(rockObstacle, tempPositionX - gameConfig.board.squareWidth, tempPositionY, this, "right");
-                this.handleObjectCollision(gemReward, tempPositionX - gameConfig.board.squareWidth, tempPositionY, this, "right");
+                if(this.handleObjectCollision(rockObstacle, tempPositionX - gameConfig.board.squareWidth, tempPositionY, this, "right")){
+                    this.handleObjectCollision(gemReward, tempPositionX - gameConfig.board.squareWidth, tempPositionY, this, "right");
+                }
             }
             break;
         case "right":
             if(this.x !== gameConfig.board.squareInitialX[gameConfig.board.squareInitialX.length - 1]) {
-                this.handleObjectCollision(rockObstacle, tempPositionX + gameConfig.board.squareWidth, tempPositionY, this, "right");
-                this.handleObjectCollision(gemReward, tempPositionX + gameConfig.board.squareWidth, tempPositionY, this, "right");
+                if(this.handleObjectCollision(rockObstacle, tempPositionX + gameConfig.board.squareWidth, tempPositionY, this, "right")){
+                    this.handleObjectCollision(gemReward, tempPositionX + gameConfig.board.squareWidth, tempPositionY, this, "right");
+                }
             }
             break;
         case "down":
             if (this.y !== gameConfig.board.squareInitialY[gameConfig.board.squareInitialY.length - 1]) {
-                this.handleObjectCollision(rockObstacle, tempPositionX, tempPositionY + gameConfig.board.squareHeight, this, "down");
-                this.handleObjectCollision(gemReward, tempPositionX, tempPositionY + gameConfig.board.squareHeight, this, "down");
+                if(this.handleObjectCollision(rockObstacle, tempPositionX, tempPositionY + gameConfig.board.squareHeight, this, "down")){
+                    this.handleObjectCollision(gemReward, tempPositionX, tempPositionY + gameConfig.board.squareHeight, this, "down");
+                }
             }
             break;
         case "up":
             if (this.y !== gameConfig.board.squareInitialY[0]) {
-                this.handleObjectCollision(rockObstacle, tempPositionX, tempPositionY - gameConfig.board.squareHeight, this, "up");
-                this.handleObjectCollision(gemReward, tempPositionX, tempPositionY - gameConfig.board.squareHeight, this, "up");
+                if(this.handleObjectCollision(rockObstacle, tempPositionX, tempPositionY - gameConfig.board.squareHeight, this, "up")){
+                    this.handleObjectCollision(gemReward, tempPositionX, tempPositionY - gameConfig.board.squareHeight, this, "up");
+                }
             }
           break;
 
