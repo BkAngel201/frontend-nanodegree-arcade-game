@@ -108,7 +108,7 @@ Player.prototype.reachFinalLine = function() {
 Player.prototype.handleObjectCollision = function(objectArray, positionX, positionY, playerObject, direction) {
     let allowedToMove = true;
     objectArray.forEach(function(object) {
-        if(object.sprite === 'images/rock.png') {
+        if(object.sprite === 'images/Rock.png') {
             if(object.x == positionX && object.y == positionY) {
                 allowedToMove = false;
             }
@@ -170,7 +170,7 @@ Player.prototype.handleInput = function(keyPressed) {
 
 // Our player
 var RockObstacle = function(initialX, initialY) {
-    this.sprite = 'images/rock.png';
+    this.sprite = 'images/Rock.png';
     this.x = initialX;
     this.y = initialY;
 };
