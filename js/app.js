@@ -128,13 +128,15 @@ Player.prototype.updateHearts = function() {
 }
 
 Player.prototype.reachFinalLine = function() {
-  alert("You have Reached the water. \nCongratulations, You Win.");
-  this.resetPosition();
+    alert("You have Reached the water. \nCongratulations, You Win.");
+    this.resetPosition();
 }
 
 Player.prototype.gameOver = function() {
-    alert("All your lives are gone. \nWe are sorry, you Lose.");
-    location.reload();
+    setTimeout(function() {
+        alert("All your lives are gone. \nWe are sorry, you Lose.");
+        location.reload();
+    }, 200);
 }
 
 // test if the player and an object are colliding
