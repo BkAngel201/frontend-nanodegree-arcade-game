@@ -1,3 +1,45 @@
+* {
+    margin: 0;
+    padding: 0;
+}
 body {
     text-align: center;
+    background-color: #37474f;
+    font-size: 14px;
+    font-family: 'Roboto Condensed', sans-serif;
+}
+canvas {
+    margin-top: -50px;
+}
+.info-panel {
+    width: 505px;
+    margin-top: 5px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    justify-content: space-between;
+}
+.info-panel [class$=info] {
+    min-width: 130px;
+}
+.info-panel .gems-info .fas {
+    animation: ColorChange 3s linear infinite alternate;
+    padding-left: 12px;
+}
+.level-info,
+.gems-info span {
+    font-size: 32px;
+    font-weight: bold;
+    line-height: 1;
+}
+
+/* Animations */
+@keyframes ColorChange {
+    0%  {color: #e37422;}
+    50% {color: #208c43;}
+    100%{color: #2145e3;}
+
+
 }
