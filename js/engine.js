@@ -155,6 +155,9 @@ var Engine = (function(global) {
         rockObstacle.forEach(function(rock) {
             rock.render();
         });
+        gemReward.forEach(function(gem) {
+            gem.render();
+        });
         allEnemies.forEach(function(enemy) {
             enemy.render();
         });
@@ -180,6 +183,9 @@ var Engine = (function(global) {
         'images/water-block.png',
         'images/grass-block.png',
         'images/Rock.png',
+        'images/GemGreen.png',
+        'images/GemOrange.png',
+        'images/GemBlue.png',
         'images/enemy-bug.png',
         'images/char-boy.png',
 

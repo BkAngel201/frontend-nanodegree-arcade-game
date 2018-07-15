@@ -112,6 +112,21 @@ Player.prototype.handleObjectCollision = function(objectArray, positionX, positi
             if(object.x == positionX && object.y == positionY) {
                 allowedToMove = false;
             }
+        } else if(object.sprite === 'images/GemGreen.png') {
+            if(object.x == positionX && object.y == positionY) {
+                object.x = 800;
+                object.y = 800;
+            }
+        } else if(object.sprite === 'images/GemOrange.png') {
+            if(object.x == positionX && object.y == positionY) {
+                object.x = 800;
+                object.y = 800;
+            }
+        } else if(object.sprite === 'images/GemBlue.png') {
+            if(object.x == positionX && object.y == positionY) {
+                object.x = 800;
+                object.y = 800;
+            }
         }
     });
     if(allowedToMove) {
@@ -147,21 +162,25 @@ Player.prototype.handleInput = function(keyPressed) {
         case "left":
             if(this.x !== gameConfig.board.squareInitialX[0]) {
                 this.handleObjectCollision(rockObstacle, tempPositionX - gameConfig.board.squareWidth, tempPositionY, this, "right");
+                this.handleObjectCollision(gemReward, tempPositionX - gameConfig.board.squareWidth, tempPositionY, this, "right");
             }
             break;
         case "right":
             if(this.x !== gameConfig.board.squareInitialX[gameConfig.board.squareInitialX.length - 1]) {
                 this.handleObjectCollision(rockObstacle, tempPositionX + gameConfig.board.squareWidth, tempPositionY, this, "right");
+                this.handleObjectCollision(gemReward, tempPositionX + gameConfig.board.squareWidth, tempPositionY, this, "right");
             }
             break;
         case "down":
             if (this.y !== gameConfig.board.squareInitialY[gameConfig.board.squareInitialY.length - 1]) {
                 this.handleObjectCollision(rockObstacle, tempPositionX, tempPositionY + gameConfig.board.squareHeight, this, "down");
+                this.handleObjectCollision(gemReward, tempPositionX, tempPositionY + gameConfig.board.squareHeight, this, "down");
             }
             break;
         case "up":
             if (this.y !== gameConfig.board.squareInitialY[0]) {
                 this.handleObjectCollision(rockObstacle, tempPositionX, tempPositionY - gameConfig.board.squareHeight, this, "up");
+                this.handleObjectCollision(gemReward, tempPositionX, tempPositionY - gameConfig.board.squareHeight, this, "up");
             }
           break;
 
@@ -175,12 +194,19 @@ var RockObstacle = function(initialX, initialY) {
     this.y = initialY;
 };
 
-RockObstacle.prototype.update = function(dt) {
-
+// Draw the player on the screen, required method for game
+RockObstacle.prototype.render = function() {
+    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+};
+// Our player
+var GemReward = function(initialX, initialY, gemColor) {
+    this.sprite = 'images/Gem'+ gemColor +'.png';
+    this.x = initialX;
+    this.y = initialY;
 };
 
 // Draw the player on the screen, required method for game
-RockObstacle.prototype.render = function() {
+GemReward.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
@@ -189,12 +215,13 @@ RockObstacle.prototype.render = function() {
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
 const rockObstacle = [new RockObstacle(202,238), new RockObstacle(101,487)];
+const gemReward = [new GemReward(101,238,"Green"), new GemReward(303,487,"Orange"), new GemReward(303,155,"Blue")];
 const allEnemies = [];
-/*for(let valueY in gameConfig.board.squareInitialY) {
+for(let valueY in gameConfig.board.squareInitialY) {
     if(valueY != 0 && valueY != gameConfig.board.squareInitialY.length-1) {
         allEnemies.push(new Enemy(gameConfig.board.squareInitialY[valueY]));
     }
-}*/
+}
 const player = new Player();
 
 
