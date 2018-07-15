@@ -152,6 +152,9 @@ var Engine = (function(global) {
         /* Loop through all of the objects within the allEnemies array and call
          * the render function you have defined.
          */
+        rockObstacle.forEach(function(rock) {
+            rock.render();
+        });
         allEnemies.forEach(function(enemy) {
             enemy.render();
         });
@@ -172,11 +175,14 @@ var Engine = (function(global) {
      * all of these images are properly loaded our game will start.
      */
     Resources.load([
+
         'images/stone-block.png',
         'images/water-block.png',
         'images/grass-block.png',
+        'images/rock.png',
         'images/enemy-bug.png',
-        'images/char-boy.png'
+        'images/char-boy.png',
+
     ]);
     Resources.onReady(init);
 

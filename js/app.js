@@ -104,46 +104,99 @@ Player.prototype.reachFinalLine = function() {
   this.resetPosition();
 }
 
+// test if the player and an object are colliding
+Player.prototype.handleObjectCollision = function(objectArray, positionX, positionY, playerObject, direction) {
+    let allowedToMove = true;
+    objectArray.forEach(function(object) {
+        if(object.sprite === 'images/rock.png') {
+            if(object.x == positionX && object.y == positionY) {
+                allowedToMove = false;
+            }
+        }
+    });
+    if(allowedToMove) {
+        switch (direction) {
+            case "left":
+                //menos
+                playerObject.x = positionX;
+                break;
+            case "right":
+            //mas
+                playerObject.x = positionX;
+                break;
+            case "down":
+            //mas
+                playerObject.y = positionY;
+                break;
+            case "up":
+            //menos
+                playerObject.y = positionY;
+                break;
+            default:
+        }
+    }
+}
+
 // handle what key is pressend and what to do in every case
 Player.prototype.handleInput = function(keyPressed) {
-  switch (keyPressed) {
-    // the if inside every case is to prevent the player going out of the screen, every side has it limit
-    // the movement is 83px vertically and 101px horizontally
-    case "left":
-      if(this.x !== gameConfig.board.squareInitialX[0]) {
-        this.x -= gameConfig.board.squareWidth;
-      }
-      break;
-    case "right":
-      if(this.x !== gameConfig.board.squareInitialX[gameConfig.board.squareInitialX.length - 1]) {
-        this.x += gameConfig.board.squareWidth;
-      }
-      break;
-    case "down":
-      if (this.y !== gameConfig.board.squareInitialY[gameConfig.board.squareInitialY.length - 1]) {
-        this.y += gameConfig.board.squareHeight;
-      }
-      break;
-    case "up":
-      if (this.y !== gameConfig.board.squareInitialY[0]) {
-        this.y -= gameConfig.board.squareHeight;
-      }
-      break;
+    const tempPositionX = this.x;
+    const tempPositionY = this.y;
+    switch (keyPressed) {
+        // the if inside every case is to prevent the player going out of the screen, every side has it limit
+        // the movement is 83px vertically and 101px horizontally
+        case "left":
+            if(this.x !== gameConfig.board.squareInitialX[0]) {
+                this.handleObjectCollision(rockObstacle, tempPositionX - gameConfig.board.squareWidth, tempPositionY, this, "right");
+            }
+            break;
+        case "right":
+            if(this.x !== gameConfig.board.squareInitialX[gameConfig.board.squareInitialX.length - 1]) {
+                this.handleObjectCollision(rockObstacle, tempPositionX + gameConfig.board.squareWidth, tempPositionY, this, "right");
+            }
+            break;
+        case "down":
+            if (this.y !== gameConfig.board.squareInitialY[gameConfig.board.squareInitialY.length - 1]) {
+                this.handleObjectCollision(rockObstacle, tempPositionX, tempPositionY + gameConfig.board.squareHeight, this, "down");
+            }
+            break;
+        case "up":
+            if (this.y !== gameConfig.board.squareInitialY[0]) {
+                this.handleObjectCollision(rockObstacle, tempPositionX, tempPositionY - gameConfig.board.squareHeight, this, "up");
+            }
+          break;
 
-  }
+    }
 }
+
+// Our player
+var RockObstacle = function(initialX, initialY) {
+    this.sprite = 'images/rock.png';
+    this.x = initialX;
+    this.y = initialY;
+};
+
+RockObstacle.prototype.update = function(dt) {
+
+};
+
+// Draw the player on the screen, required method for game
+RockObstacle.prototype.render = function() {
+    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+};
+
 
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
+const rockObstacle = [new RockObstacle(202,238), new RockObstacle(101,487)];
 const allEnemies = [];
-for(let valueY in gameConfig.board.squareInitialY) {
+/*for(let valueY in gameConfig.board.squareInitialY) {
     if(valueY != 0 && valueY != gameConfig.board.squareInitialY.length-1) {
         allEnemies.push(new Enemy(gameConfig.board.squareInitialY[valueY]));
     }
-}
-
+}*/
 const player = new Player();
+
 
 
 // This listens for key presses and sends the keys to your
