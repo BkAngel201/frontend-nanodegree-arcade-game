@@ -3,7 +3,11 @@
 const gameConfig = {
     player: {
         initialX: 202,
-        initialY: 570
+        initialY: 570,
+        totalGemCounter: 10,
+        archievements: {
+
+        }
     },
     collision: {
         imageWidth: 75,             // correcting the with of the imagen for realistic collisions when the graphics touch each other
@@ -15,6 +19,10 @@ const gameConfig = {
         squareHeight: 83,
         squareInitialY : [-11, 72, 155, 238, 321, 404, 487, 570],
         squareInitialX : [0, 101, 202, 303, 404]
+    },
+    htmlObjects: {
+        gemCounter: document.getElementById("gemCounter"),
+        heartCounter: document.getElementById("heartCounter"),
     }
 }
 
@@ -64,7 +72,8 @@ Enemy.prototype.handleCollision = function(playerObject) {
       (this.x + gameConfig.collision.imageWidth) > playerObject.x  &&
       (this.y - gameConfig.collision.imageAreaTransparent) < (playerObject.y - gameConfig.collision.imageAreaTransparent + gameConfig.collision.imageHeight) &&
       (this.y - gameConfig.collision.imageAreaTransparent + gameConfig.collision.imageHeight) > (playerObject.y - gameConfig.collision.imageAreaTransparent)) {
-        alert("One of the Enemies has touch You. \nSo you Lose the Game.");
+        playerObject.hearts --;
+        playerObject.updateHearts();
         // when they touch each other we reset the position of the player
         playerObject.resetPosition();
     }
@@ -80,12 +89,15 @@ var Player = function() {
     this.sprite = 'images/char-boy.png';
     this.x = gameConfig.player.initialX;
     this.y = gameConfig.player.initialY;
+    this.gemCounter = 0;
+    this.hearts = 3;
 };
 
 Player.prototype.update = function(dt) {
     if (this.y === gameConfig.board.squareInitialY[0]) {
       this.reachFinalLine();
     }
+    gameConfig.htmlObjects.gemCounter.innerHTML = this.gemCounter + gameConfig.player.totalGemCounter;
 };
 
 // Draw the player on the screen, required method for game
@@ -97,6 +109,18 @@ Player.prototype.render = function() {
 Player.prototype.resetPosition = function() {
     this.x = gameConfig.player.initialX;
     this.y = gameConfig.player.initialY;
+}
+
+Player.prototype.updateHearts = function() {
+    let heartContent = "";
+    for (var i = 0; i < 3; i++) {
+        if (i < this.hearts) {
+            heartContent += `<i class="fas fa-heart fa-2x"></i> `;
+        } else {
+            heartContent += `<i class="far fa-heart fa-2x"></i> `;
+        }
+    }
+    gameConfig.htmlObjects.heartCounter.innerHTML = heartContent;
 }
 
 Player.prototype.reachFinalLine = function() {
@@ -116,16 +140,19 @@ Player.prototype.handleObjectCollision = function(objectArray, positionX, positi
             if(object.x == positionX && object.y == positionY) {
                 object.x = 800;
                 object.y = 800;
+                playerObject.gemCounter += 3;
             }
         } else if(object.sprite === 'images/GemOrange.png') {
             if(object.x == positionX && object.y == positionY) {
                 object.x = 800;
                 object.y = 800;
+                playerObject.gemCounter += 2;
             }
         } else if(object.sprite === 'images/GemBlue.png') {
             if(object.x == positionX && object.y == positionY) {
                 object.x = 800;
                 object.y = 800;
+                playerObject.gemCounter += 1;
             }
         }
     });

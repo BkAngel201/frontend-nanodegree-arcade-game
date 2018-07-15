@@ -27,12 +27,20 @@ canvas {
 .info-panel .gems-info .fas {
     animation: ColorChange 3s linear infinite alternate;
     padding-left: 12px;
+    text-shadow: 2px 2px 2px #111,
+                3px 3px 3px #333;
 }
 .level-info,
 .gems-info span {
     font-size: 32px;
-    font-weight: bold;
+    color: white;
     line-height: 1;
+}
+.heart-info {
+    font-size: 16px;
+    color: #e53935;
+    text-shadow: 2px 2px 2px #111,
+                3px 3px 3px #333;
 }
 
 /* Animations */
