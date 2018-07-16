@@ -150,9 +150,24 @@ canvas {
 }
 
 .hero-description {
-    padding-top: 20px;
-    padding-left: 20px;
+    padding-top: 5px;
+    padding-left: 10px;
     text-align: left;
+    width: 370px;
+}
+.hero-description .hero-name {
+    font-size: 20px;
+    font-weight: bold;
+    border-bottom: 1px solid black;
+    margin-bottom: 5px;
+}
+.hero-description .hero-history {
+    font-size: 16px;
+}
+a:hover .hero-name,
+a:focus .hero-name,
+a.active .hero-name {
+    border-bottom-color: white;
 }
 .modal-footer {
     background-color: #37474f;
