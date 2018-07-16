@@ -30,7 +30,29 @@ const gameConfig = {
         heroHorn: "horn-girl",
         heroPink: "pink-girl",
         heroPrincess: "princess-girl"
-    }
+    },
+    arrowsOffsetValues: {
+        up: {
+            offsetX: 0,
+            offsetY: -10
+        },
+        down: {
+            offsetX: 0,
+            offsetY: 151
+        },
+        left: {
+            offsetX: -101,
+            offsetY: 75
+        },
+        right: {
+            offsetX: 101,
+            offsetY: 75
+        }
+    },
+    arrowDimentions: {
+        valueX: 101,
+        valueY: 60
+    },
 }
 
 // Enemies our player must avoid
@@ -57,7 +79,7 @@ Enemy.prototype.update = function(dt) {
     this.x += (this.speed * dt);
 
     // when the enemy is out of screen we reset it position and it speed to look like is another different enemy
-    if (this.x > 600) {
+    if(this.x > 600) {
       this.x = (Math.random() * (-550 - (-101)) + (-101)); // take a random value out of the screen like start position
       this.speed = (Math.random() * (5 - 1) + 1) * 100; // take a random value of speed between 1 and 5 and multipling it with 100
     }
@@ -101,7 +123,7 @@ var Player = function(charName, hearts = 3) {
 };
 
 Player.prototype.update = function(dt) {
-    if (this.y === gameConfig.board.squareInitialY[0]) {
+    if(this.y === gameConfig.board.squareInitialY[0]) {
       this.reachFinalLine();
     }
     gameConfig.htmlObjects.gemCounter.innerHTML = this.gemCounter + gameConfig.player.totalGemCounter;
@@ -120,15 +142,15 @@ Player.prototype.resetPosition = function() {
 
 Player.prototype.updateHearts = function() {
     let heartContent = "";
-    for (var i = 0; i < 3; i++) {
-        if (i < this.hearts) {
+    for(var i = 0; i < 3; i++) {
+        if(i < this.hearts) {
             heartContent += `<i class="fas fa-heart fa-2x"></i> `;
         } else {
             heartContent += `<i class="far fa-heart fa-2x"></i> `;
         }
     }
     gameConfig.htmlObjects.heartCounter.innerHTML = heartContent;
-    if (this.hearts === 0) {
+    if(this.hearts === 0) {
         this.gameOver();
     }
 }
@@ -175,19 +197,15 @@ Player.prototype.handleObjectCollision = function(objectArray, positionX, positi
     if(allowedToMove) {
         switch (direction) {
             case "left":
-                //menos
                 playerObject.x = positionX;
                 break;
             case "right":
-            //mas
                 playerObject.x = positionX;
                 break;
             case "down":
-            //mas
                 playerObject.y = positionY;
                 break;
             case "up":
-            //menos
                 playerObject.y = positionY;
                 break;
             default:
@@ -218,14 +236,14 @@ Player.prototype.handleInput = function(keyPressed) {
             }
             break;
         case "down":
-            if (this.y !== gameConfig.board.squareInitialY[gameConfig.board.squareInitialY.length - 1]) {
+            if(this.y !== gameConfig.board.squareInitialY[gameConfig.board.squareInitialY.length - 1]) {
                 if(this.handleObjectCollision(rockObstacle, tempPositionX, tempPositionY + gameConfig.board.squareHeight, this, "down")){
                     this.handleObjectCollision(gemReward, tempPositionX, tempPositionY + gameConfig.board.squareHeight, this, "down");
                 }
             }
             break;
         case "up":
-            if (this.y !== gameConfig.board.squareInitialY[0]) {
+            if(this.y !== gameConfig.board.squareInitialY[0]) {
                 if(this.handleObjectCollision(rockObstacle, tempPositionX, tempPositionY - gameConfig.board.squareHeight, this, "up")){
                     this.handleObjectCollision(gemReward, tempPositionX, tempPositionY - gameConfig.board.squareHeight, this, "up");
                 }
@@ -246,6 +264,7 @@ var RockObstacle = function(initialX, initialY) {
 RockObstacle.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
+
 // Our player
 var GemReward = function(initialX, initialY, gemColor) {
     this.sprite = 'images/Gem'+ gemColor +'.png';
@@ -258,6 +277,36 @@ GemReward.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
+// Our player
+var ArrowControls = function(initialX, initialY, direction) {
+    this.sprite = 'images/'+ direction +'-arrow.png';
+    this.direction = direction;
+    this.x = initialX;
+    this.y = initialY;
+};
+
+// Draw the player on the screen, required method for game
+ArrowControls.prototype.render = function() {
+    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+};
+
+ArrowControls.prototype.update = function(dt) {
+    this.x = player.x + gameConfig.arrowsOffsetValues[this.direction].offsetX;
+    this.y = player.y + gameConfig.arrowsOffsetValues[this.direction].offsetY;
+    if(player.y === 570 && this.direction == "down") {
+        this.y = 900;
+    }
+};
+
+ArrowControls.prototype.handleTouch = function(touchX, touchY) {
+    if(touchX > this.x &&
+        touchX < this.x + gameConfig.arrowDimentions.valueX &&
+        touchY > this.y &&
+        touchY < this.y + gameConfig.arrowDimentions.valueY) {
+            player.handleInput(this.direction);
+    }
+};
+
 
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
@@ -266,7 +315,7 @@ let rockObstacle = [];
 let gemReward = [];
 let allEnemies = [];
 let player;
-
+let arrows = [];
 let selectedHero = "heroBoy";
 
 
@@ -289,7 +338,13 @@ document.addEventListener('keyup', function(e) {
     if(player) {
         player.handleInput(allowedKeys[e.keyCode]);
     }
+});
 
+document.addEventListener("touchstart", function(evt) {
+    const canvasObject = document.querySelector("canvas").getBoundingClientRect();
+    arrows.forEach(function(arrow) {
+        arrow.handleTouch(evt.changedTouches[0].pageX - canvasObject.left, evt.changedTouches[0].pageY - canvasObject.top);
+    });
 });
 
 
@@ -314,6 +369,10 @@ startGameButtonElement.addEventListener("click", function() {
         }
     }
     player = new Player(gameConfig.heros[selectedHero]);
+    arrows = [new ArrowControls(gameConfig.player.initialX + gameConfig.arrowsOffsetValues.up.offsetX, gameConfig.player.initialY + gameConfig.arrowsOffsetValues.up.offsetY, "up"),
+             new ArrowControls(gameConfig.player.initialX + gameConfig.arrowsOffsetValues.down.offsetX, gameConfig.player.initialY + gameConfig.arrowsOffsetValues.down.offsetY, "down"),
+             new ArrowControls(gameConfig.player.initialX + gameConfig.arrowsOffsetValues.left.offsetX, gameConfig.player.initialY + gameConfig.arrowsOffsetValues.left.offsetY, "left"),
+             new ArrowControls(gameConfig.player.initialX + gameConfig.arrowsOffsetValues.right.offsetX, gameConfig.player.initialY + gameConfig.arrowsOffsetValues.right.offsetY, "right")]
     gameConfig.htmlObjects.heartCounter.innerHTML = '<i class="fas fa-heart fa-2x"></i> <i class="fas fa-heart fa-2x"></i> <i class="fas fa-heart fa-2x"></i> ';
     modalHeroSelectionElement.classList.add("invisible");
 });
@@ -325,3 +384,19 @@ playAgainElement.addEventListener("click", function() {
         delete array[index];
     })
 });
+
+function checkMobileDesktop() {
+     if( navigator.userAgent.match(/Android/i)
+     || navigator.userAgent.match(/webOS/i)
+     || navigator.userAgent.match(/iPhone/i)
+     || navigator.userAgent.match(/iPad/i)
+     || navigator.userAgent.match(/iPod/i)
+     || navigator.userAgent.match(/BlackBerry/i)
+     || navigator.userAgent.match(/Windows Phone/i)
+     ){
+         return true
+      }
+     else {
+        return false
+      }
+}

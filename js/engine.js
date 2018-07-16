@@ -93,6 +93,9 @@ var Engine = (function(global) {
         allEnemies.forEach(function(enemy) {
             enemy.update(dt);
         });
+        arrows.forEach(function(arrow) {
+            arrow.update(dt);
+        });
         if(player) {
             player.update();
         }
@@ -167,6 +170,11 @@ var Engine = (function(global) {
         if(player) {
             player.render();
         }
+        if(checkMobileDesktop()){
+            arrows.forEach(function(arrow) {
+                arrow.render();
+            });
+        }
     }
 
     /* This function does nothing but it could have been a good place to
@@ -186,6 +194,10 @@ var Engine = (function(global) {
         'images/stone-block.png',
         'images/water-block.png',
         'images/grass-block.png',
+        'images/left-arrow.png',
+        'images/right-arrow.png',
+        'images/up-arrow.png',
+        'images/down-arrow.png',
         'images/Rock.png',
         'images/GemGreen.png',
         'images/GemOrange.png',
@@ -196,6 +208,7 @@ var Engine = (function(global) {
         'images/char-horn-girl.png',
         'images/char-pink-girl.png',
         'images/char-princess-girl.png',
+
 
     ]);
     Resources.onReady(init);
