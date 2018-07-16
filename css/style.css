@@ -1,6 +1,7 @@
 * {
     margin: 0;
     padding: 0;
+    box-sizing: content-box;
 }
 body {
     text-align: center;
@@ -42,6 +43,135 @@ canvas {
     text-shadow: 2px 2px 2px #111,
                 3px 3px 3px #333;
 }
+.modal {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100vw;
+    font-size: 18px;
+}
+.modal.invisible {
+    display: none;
+}
+.modal-background {
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    z-index: 1;
+}
+.modal-hero-selection {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 505px;
+    min-height: 70px;
+    display: flex;
+    flex-direction: column;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+}
+.modal-header ul {
+    display: flex;
+    list-style: none;
+    justify-content: flex-end;
+    font-size: 21px;
+}
+.modal-header ul a {
+    padding: 7px 15px;
+    margin-left: 10px;
+    background-color: #37474f;
+    text-decoration: none;
+    color: white;
+}
+.modal-header ul a:hover,
+.modal-header ul a:focus {
+    background-color: #d81919;
+    color: black;
+}
+.modal-header ul a.active {
+    background-color: #436271;
+    color: black;
+}
+.modal-body {
+    flex-direction: column;
+    margin-top: 5px;
+    padding: 10px;
+    max-height: 535px;
+    background-color: #436271;
+}
+.modal-body,
+.modal-footer {
+    box-shadow: 0 0 2px rgba(0, 0, 0, .9),
+                0 0 3px rgba(0, 0, 0, .8),
+                0 0 5px rgba(0, 0, 0, .6),
+                0 0 7px rgba(0, 0, 0, .4);
+}
+.modal-body .hero-info {
+    display: flex;
+    text-decoration: none;
+    color: inherit;
+    border: 1px solid transparent;
+}
+.hero-info {
+    margin: 5px 0;
+}
+.hero-info:hover,
+.hero-info:focus,
+.hero-info.active {
+    background-color: #37474f;
+    color: white;
+    border: 1px solid #fff;
+}
+.hero-info.active {
+    border: 1px solid #9e3232;
+}
+[class*=char-] {
+    width: 100px;
+    height: 100px;
+    background-position: 0 120px;
+}
+.char-boy {
+    background-image: url("../images/char-boy.png");
+}
+.char-cat-girl {
+    background-image: url("../images/char-cat-girl.png");
+}
+.char-horn-girl {
+    background-image: url("../images/char-horn-girl.png");
+}
+.char-pink-girl {
+    background-image: url("../images/char-pink-girl.png");
+}
+.char-princess-girl {
+    background-image: url("../images/char-princess-girl.png");
+}
+
+.hero-description {
+    padding-top: 20px;
+    padding-left: 20px;
+    text-align: left;
+}
+.modal-footer {
+    background-color: #37474f;
+    padding: 20px 0;
+}
+.modal-footer a {
+    padding: 7px 12px;
+    background-color: #329e39;
+    color: white;
+    text-decoration: none;
+    border: 1px solid transparent;
+}
+.modal-footer a:hover,
+.modal-footer a:focus {
+    background-color: #19d825;
+    border-color: black;
+    color: black;
+}
+
+
+
 
 /* Animations */
 @keyframes ColorChange {

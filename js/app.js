@@ -4,7 +4,7 @@ const gameConfig = {
     player: {
         initialX: 202,
         initialY: 570,
-        totalGemCounter: 10,
+        totalGemCounter: 0,
         archievements: {
 
         }
@@ -23,6 +23,13 @@ const gameConfig = {
     htmlObjects: {
         gemCounter: document.getElementById("gemCounter"),
         heartCounter: document.getElementById("heartCounter"),
+    },
+    heros: {
+        heroBoy: "boy",
+        heroCat: "cat-girl",
+        heroHorn: "horn-girl",
+        heroPink: "pink-girl",
+        heroPrincess: "princess-girl"
     }
 }
 
@@ -86,8 +93,8 @@ Enemy.prototype.handleCollision = function(playerObject) {
 
 
 // Our player
-var Player = function() {
-    this.sprite = 'images/char-boy.png';
+var Player = function(charName) {
+    this.sprite = 'images/char-'+ charName +'.png';
     this.x = gameConfig.player.initialX;
     this.y = gameConfig.player.initialY;
     this.gemCounter = 0;
@@ -257,17 +264,19 @@ GemReward.prototype.render = function() {
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
-const rockObstacle = [new RockObstacle(202,238), new RockObstacle(101,487)];
-const gemReward = [new GemReward(101,238,"Green"), new GemReward(303,487,"Orange"), new GemReward(303,155,"Blue")];
-const allEnemies = [];
-for(let valueY in gameConfig.board.squareInitialY) {
-    if(valueY != 0 && valueY != gameConfig.board.squareInitialY.length-1) {
-        allEnemies.push(new Enemy(gameConfig.board.squareInitialY[valueY]));
-    }
-}
-const player = new Player();
+let rockObstacle ;
+let gemReward;
+let allEnemies = [];
+let player;
 
 
+let selectedHero = "heroBoy";
+
+
+//element declaration
+const heroInfoElement = document.querySelectorAll(".hero-info");
+const startGameButtonElement = document.getElementById("startGame");
+const modalHeroSelectionElement = document.getElementById("modalHeroSelection");
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
@@ -278,6 +287,34 @@ document.addEventListener('keyup', function(e) {
         39: 'right',
         40: 'down'
     };
+    if(player) {
+        player.handleInput(allowedKeys[e.keyCode]);
+    }
 
-    player.handleInput(allowedKeys[e.keyCode]);
+});
+
+
+document.body.addEventListener("click", function(evt) {
+    let dataReferenceObject;
+    if(dataReferenceObject = evt.target.getAttribute("data-reference")) {
+        console.log(dataReferenceObject);
+        heroInfoElement.forEach(function(currentValue) {
+          currentValue.className = "hero-info";
+        });
+        document.getElementById(dataReferenceObject).classList.add("active");
+        selectedHero = dataReferenceObject;
+    }
+});
+
+startGameButtonElement.addEventListener("click", function() {
+    rockObstacle = [new RockObstacle(202,238), new RockObstacle(101,487)];
+    gemReward = [new GemReward(101,238,"Green"), new GemReward(303,487,"Orange"), new GemReward(303,155,"Blue")];
+    for(let valueY in gameConfig.board.squareInitialY) {
+        if(valueY != 0 && valueY != gameConfig.board.squareInitialY.length-1) {
+            allEnemies.push(new Enemy(gameConfig.board.squareInitialY[valueY]));
+        }
+    }
+    player = new Player(gameConfig.heros[selectedHero]);
+    modalHeroSelectionElement.classList.add("invisible");
+    const engine = new Engine(window);
 });
