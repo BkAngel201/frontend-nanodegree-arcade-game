@@ -50,6 +50,7 @@ canvas {
     height: 100vh;
     width: 100vw;
     font-size: 18px;
+    display: block;
 }
 .modal.invisible {
     display: none;
@@ -60,7 +61,8 @@ canvas {
     background-color: white;
     z-index: 1;
 }
-.modal-hero-selection {
+.modal-hero-selection,
+.modal-game-over {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -156,7 +158,8 @@ canvas {
     background-color: #37474f;
     padding: 20px 0;
 }
-.modal-footer a {
+.modal-footer a,
+.modal-game-over a {
     padding: 7px 12px;
     background-color: #329e39;
     color: white;
@@ -164,10 +167,26 @@ canvas {
     border: 1px solid transparent;
 }
 .modal-footer a:hover,
-.modal-footer a:focus {
+.modal-footer a:focus,
+.modal-game-over a:hover,
+.modal-game-over a:focus {
     background-color: #19d825;
     border-color: black;
     color: black;
+}
+.modal-game-over {
+    font-size: 30px;
+    text-align: center;
+}
+.modal-game-over img {
+    width: 150px;
+    height: 150px;
+    margin: 20px auto 0;
+}
+.modal-game-over a {
+    width: 200px;
+    margin: 15px auto 0;
+    font-size: 20px;
 }
 
 

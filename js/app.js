@@ -80,7 +80,6 @@ Enemy.prototype.handleCollision = function(playerObject) {
       (this.y - gameConfig.collision.imageAreaTransparent) < (playerObject.y - gameConfig.collision.imageAreaTransparent + gameConfig.collision.imageHeight) &&
       (this.y - gameConfig.collision.imageAreaTransparent + gameConfig.collision.imageHeight) > (playerObject.y - gameConfig.collision.imageAreaTransparent)) {
         playerObject.hearts --;
-        console.log(playerObject.hearts);
         playerObject.updateHearts();
         // when they touch each other we reset the position of the player
         playerObject.resetPosition();
@@ -93,7 +92,7 @@ Enemy.prototype.handleCollision = function(playerObject) {
 
 
 // Our player
-var Player = function(charName) {
+var Player = function(charName, hearts = 3) {
     this.sprite = 'images/char-'+ charName +'.png';
     this.x = gameConfig.player.initialX;
     this.y = gameConfig.player.initialY;
@@ -141,9 +140,8 @@ Player.prototype.reachFinalLine = function() {
 
 Player.prototype.gameOver = function() {
     setTimeout(function() {
-        alert("All your lives are gone. \nWe are sorry, you Lose.");
-        location.reload();
-    }, 200);
+        modalGameOverElement.classList.toggle("invisible");
+    }, 100);
 }
 
 // test if the player and an object are colliding
@@ -264,11 +262,10 @@ GemReward.prototype.render = function() {
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
-let rockObstacle ;
-let gemReward;
+let rockObstacle = [];
+let gemReward = [];
 let allEnemies = [];
 let player;
-
 
 let selectedHero = "heroBoy";
 
@@ -277,6 +274,8 @@ let selectedHero = "heroBoy";
 const heroInfoElement = document.querySelectorAll(".hero-info");
 const startGameButtonElement = document.getElementById("startGame");
 const modalHeroSelectionElement = document.getElementById("modalHeroSelection");
+const modalGameOverElement = document.getElementById("modalGameOver");
+const playAgainElement = document.getElementById("playAgain");
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
@@ -315,6 +314,14 @@ startGameButtonElement.addEventListener("click", function() {
         }
     }
     player = new Player(gameConfig.heros[selectedHero]);
+    gameConfig.htmlObjects.heartCounter.innerHTML = '<i class="fas fa-heart fa-2x"></i> <i class="fas fa-heart fa-2x"></i> <i class="fas fa-heart fa-2x"></i> ';
     modalHeroSelectionElement.classList.add("invisible");
-    const engine = new Engine(window);
+});
+
+playAgainElement.addEventListener("click", function() {
+    modalHeroSelection.classList.remove("invisible");
+    modalGameOverElement.classList.add("invisible");
+    allEnemies.forEach(function(currentValue, index, array) {
+        delete array[index];
+    })
 });
