@@ -44,22 +44,16 @@ canvas {
                 3px 3px 3px #333;
 }
 .modal {
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
-    height: 100vh;
-    width: 100vw;
+    height: 100%;
+    width: 100%;
     font-size: 18px;
-    display: block;
+    background-color: white;
 }
 .modal.invisible {
     display: none;
-}
-.modal-background {
-    width: 100%;
-    height: 100%;
-    background-color: white;
-    z-index: 1;
 }
 .modal-hero-selection,
 .modal-game-over {
@@ -214,4 +208,13 @@ a.active .hero-name {
     100%{color: #2145e3;}
 
 
+}
+
+
+/* BreakPoints */
+@media only screen and (max-width: 600px) {
+    .modal-hero-selection,
+    .modal-game-over {
+        width: 90%;
+    }
 }
