@@ -201,7 +201,9 @@ let gameConfig = {
 }
 
 let arcadeGameJSONData = {
-    totalGemCounter : 0
+    totalGemCounter : 0,
+    totalDeath: 0,
+    totalFinishLevel: 0
 }
 
 // Enemies our player must avoid
@@ -251,6 +253,7 @@ Enemy.prototype.handleCollision = function(playerObject) {
       (this.y - gameConfig.collision.imageAreaTransparent) < (playerObject.y - gameConfig.collision.imageAreaTransparent + gameConfig.collision.imageHeight) &&
       (this.y - gameConfig.collision.imageAreaTransparent + gameConfig.collision.imageHeight) > (playerObject.y - gameConfig.collision.imageAreaTransparent)) {
         playerObject.hearts --;
+        arcadeGameJSONData.totalDeath ++;
         playerObject.updateHearts();
         // when they touch each other we reset the position of the player
         playerObject.resetPosition();
@@ -278,6 +281,12 @@ Player.prototype.update = function(dt) {
     }
     gameConfig.htmlObjects.gemCounter.innerHTML = this.gemCounter;
     gameConfig.htmlObjects.levelCounter.innerHTML = "Level " + this.level;
+
+    gemsStatsElement.innerHTML = arcadeGameJSONData.totalGemCounter;
+    deaathsStatsElement.innerHTML = arcadeGameJSONData.totalDeath
+    winsStatsElement.innerHTML = arcadeGameJSONData.totalFinishLevel;
+
+
 };
 
 // Draw the player on the screen, required method for game
@@ -307,6 +316,9 @@ Player.prototype.updateHearts = function() {
 }
 
 Player.prototype.nextLevel = function(enemyObjectArray, rockObjectArray, gemsObjectArray) {
+    if(this.level !== 0) {
+        arcadeGameJSONData.totalFinishLevel ++;
+    }
     if(this.level === 10) {
         gameConfig.player.totalGemCounter += this.gemCounter;
         arcadeGameJSONData.totalGemCounter = gameConfig.player.totalGemCounter;
@@ -366,10 +378,8 @@ Player.prototype.gameOver = function() {
          <small>You have Won ${this.gemCounter} <i class="fas fa-gem"></i></small>
          <a href="#" data-function="playAgain">Play Again</a>
      </div>`;
-    setTimeout(function() {
-        modalGameOverElement.innerHTML = innerHTML;
-        modalGameOverElement.classList.toggle("invisible");
-    }, 100);
+    modalGameOverElement.innerHTML = innerHTML;
+    modalGameOverElement.classList.toggle("invisible");
 }
 
 // test if the player and an object are colliding
@@ -532,6 +542,9 @@ const modalHeroSelectionElement = document.getElementById("modalHeroSelection");
 const modalGameOverElement = document.getElementById("modalGameOver");
 const playAgainElement = document.getElementById("playAgain");
 const gameOverLevelElement = document.getElementById("gameOverLevel");
+const gemsStatsElement = document.getElementById("gemsStats");
+const deaathsStatsElement = document.getElementById("deathsStats");
+const winsStatsElement = document.getElementById("winsStats");
 
 
 document.addEventListener("DOMContentLoaded", function() {
@@ -539,6 +552,9 @@ document.addEventListener("DOMContentLoaded", function() {
         arcadeGameJSONData = JSON.parse(localStorage.getItem("arcadeGameJSONData"));
     }
     gameConfig.player.totalGemCounter = arcadeGameJSONData.totalGemCounter;
+    gemsStatsElement.innerHTML = arcadeGameJSONData.totalGemCounter;
+    deaathsStatsElement.innerHTML = arcadeGameJSONData.totalDeath
+    winsStatsElement.innerHTML = arcadeGameJSONData.totalFinishLevel;
 });
 
 // This listens for key presses and sends the keys to your
