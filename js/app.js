@@ -23,6 +23,7 @@ const gameConfig = {
     htmlObjects: {
         gemCounter: document.getElementById("gemCounter"),
         heartCounter: document.getElementById("heartCounter"),
+        levelCounter: document.getElementById("levelCounter")
     },
     heros: {
         heroBoy: "boy",
@@ -53,6 +54,90 @@ const gameConfig = {
         valueX: 101,
         valueY: 60
     },
+    levelConfiguration: {
+        1: {
+            ladyBugs: {
+                quantity: 3,
+                positions: [2, 3, 5]
+            },
+            rocks: {
+                quantity: 0
+            },
+            gems: {
+                quantity: 0
+            }
+        },
+        2: {
+            ladyBugs: {
+                quantity: 6,
+                positions: [1, 2, 3, 4, 5, 6]
+            },
+            rocks: {
+                quantity: 0
+            },
+            gems: {
+                quantity: 0
+            }
+        },
+        3: {
+            ladyBugs: {
+                quantity: 6,
+                positions: [1, 2, 3, 4, 5, 6]
+            },
+            rocks: {
+                quantity: 0
+            },
+            gems: {
+                quantity: 2,
+                positions: [[3, 2], [4, 4]],
+                colors: ["Blue", "Green"]
+            }
+        },
+        4: {
+            ladyBugs: {
+                quantity: 6,
+                positions: [1, 2, 3, 4, 5, 6]
+            },
+            rocks: {
+                quantity: 0
+            },
+            gems: {
+                quantity: 4,
+                positions: [[4, 1], [3, 2], [1, 5], [1, 1]],
+                colors: ["Blue", "Orange", "Blue", "Green"]
+            }
+        },
+        5: {
+            ladyBugs: {
+                quantity: 6,
+                positions: [1, 2, 3, 4, 5, 6]
+            },
+            rocks: {
+                quantity: 1,
+                positions: [[1, 5]]
+            },
+            gems: {
+                quantity: 4,
+                positions: [[1, 4], [4, 2], [0, 1], [3, 3]],
+                colors: ["Orange", "Orange", "Blue", "Green"]
+            }
+        },
+        6: {
+            ladyBugs: {
+                quantity: 6,
+                positions: [1, 2, 3, 4, 5, 6]
+            },
+            rocks: {
+                quantity: 2,
+                positions: [[2, 6], [4, 3]]
+            },
+            gems: {
+                quantity: 4,
+                positions: [[1, 6], [4, 4], [1, 5], [3, 6]],
+                colors: ["Green", "Orange", "Blue", "Green"]
+            }
+        }
+    }
 }
 
 // Enemies our player must avoid
@@ -120,13 +205,15 @@ var Player = function(charName, hearts = 3) {
     this.y = gameConfig.player.initialY;
     this.gemCounter = 0;
     this.hearts = 3;
+    this.level = 0;
 };
 
 Player.prototype.update = function(dt) {
     if(this.y === gameConfig.board.squareInitialY[0]) {
-      this.reachFinalLine();
+      this.nextLevel(allEnemies, rockObstacle, gemReward);
     }
     gameConfig.htmlObjects.gemCounter.innerHTML = this.gemCounter + gameConfig.player.totalGemCounter;
+    gameConfig.htmlObjects.levelCounter.innerHTML = "Level " + this.level;
 };
 
 // Draw the player on the screen, required method for game
@@ -155,9 +242,39 @@ Player.prototype.updateHearts = function() {
     }
 }
 
-Player.prototype.reachFinalLine = function() {
-    alert("You have Reached the water. \nCongratulations, You Win.");
-    this.resetPosition();
+Player.prototype.nextLevel = function(enemyObjectArray, rockObjectArray, gemsObjectArray) {
+    if(this.level === 6) {
+        console.log("Juego acabado");
+        this.resetPosition();
+    } else {
+        this.level ++;
+        const levelConfiguration = gameConfig.levelConfiguration[this.level];
+        enemyObjectArray.forEach(function(currentValue, index, array) {
+            delete array[index];
+        });
+        if(levelConfiguration.ladyBugs.quantity !== 0) {
+            levelConfiguration.ladyBugs.positions.forEach(function(currentValue) {
+                enemyObjectArray.push(new Enemy(gameConfig.board.squareInitialY[currentValue]));
+            });
+        }
+        rockObjectArray.forEach(function(currentValue, index, array) {
+            delete array[index];
+        });
+        if(levelConfiguration.rocks.quantity !== 0) {
+            levelConfiguration.rocks.positions.forEach(function(currentValue) {
+                rockObjectArray.push(new RockObstacle(gameConfig.board.squareInitialX[currentValue[0]], gameConfig.board.squareInitialY[currentValue[1]]));
+            });
+        }
+        gemsObjectArray.forEach(function(currentValue, index, array) {
+            delete array[index];
+        });
+        if(levelConfiguration.gems.quantity !== 0) {
+            levelConfiguration.gems.positions.forEach(function(currentValue, index) {
+                gemsObjectArray.push(new GemReward(gameConfig.board.squareInitialX[currentValue[0]], gameConfig.board.squareInitialY[currentValue[1]], levelConfiguration.gems.colors[index]));
+            });
+        }
+        this.resetPosition();
+    }
 }
 
 Player.prototype.gameOver = function() {
@@ -351,7 +468,6 @@ document.addEventListener("touchstart", function(evt) {
 document.body.addEventListener("click", function(evt) {
     let dataReferenceObject;
     if(dataReferenceObject = evt.target.getAttribute("data-reference")) {
-        console.log(dataReferenceObject);
         heroInfoElement.forEach(function(currentValue) {
           currentValue.className = "hero-info";
         });
@@ -361,14 +477,9 @@ document.body.addEventListener("click", function(evt) {
 });
 
 startGameButtonElement.addEventListener("click", function() {
-    rockObstacle = [new RockObstacle(202,238), new RockObstacle(101,487)];
-    gemReward = [new GemReward(101,238,"Green"), new GemReward(303,487,"Orange"), new GemReward(303,155,"Blue")];
-    for(let valueY in gameConfig.board.squareInitialY) {
-        if(valueY != 0 && valueY != gameConfig.board.squareInitialY.length-1) {
-            allEnemies.push(new Enemy(gameConfig.board.squareInitialY[valueY]));
-        }
-    }
     player = new Player(gameConfig.heros[selectedHero]);
+    player.level = 0;
+    player.nextLevel(allEnemies, rockObstacle, gemReward);
     arrows = [new ArrowControls(gameConfig.player.initialX + gameConfig.arrowsOffsetValues.up.offsetX, gameConfig.player.initialY + gameConfig.arrowsOffsetValues.up.offsetY, "up"),
              new ArrowControls(gameConfig.player.initialX + gameConfig.arrowsOffsetValues.down.offsetX, gameConfig.player.initialY + gameConfig.arrowsOffsetValues.down.offsetY, "down"),
              new ArrowControls(gameConfig.player.initialX + gameConfig.arrowsOffsetValues.left.offsetX, gameConfig.player.initialY + gameConfig.arrowsOffsetValues.left.offsetY, "left"),
@@ -380,9 +491,6 @@ startGameButtonElement.addEventListener("click", function() {
 playAgainElement.addEventListener("click", function() {
     modalHeroSelection.classList.remove("invisible");
     modalGameOverElement.classList.add("invisible");
-    allEnemies.forEach(function(currentValue, index, array) {
-        delete array[index];
-    })
 });
 
 function checkMobileDesktop() {
