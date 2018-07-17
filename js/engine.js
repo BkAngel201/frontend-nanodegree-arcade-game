@@ -170,6 +170,8 @@ var Engine = (function(global) {
         if(player) {
             player.render();
         }
+        // if user is on mobile the arrow willbe rendered
+        // if not, they will not
         if(checkMobileDesktop()){
             arrows.forEach(function(arrow) {
                 arrow.render();
