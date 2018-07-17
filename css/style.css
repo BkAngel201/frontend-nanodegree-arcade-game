@@ -160,6 +160,9 @@ canvas {
 .char-princess-girl {
     background-image: url("../images/char-princess-girl.png");
 }
+.icon-arrows {
+    background-image: url("../images/arrows.png");
+}
 .icon-enemy-bug {
     background-image: url("../images/enemy-bug.png");
     background-position: 0 110px;
@@ -168,14 +171,8 @@ canvas {
     background-image: url("../images/Rock.png");
     background-position: 0 130px;
 }
-.icon-gem-green {
-    background-image: url("../images/GemGreen.png");
-}
-.icon-gem-orange {
-    background-image: url("../images/GemOrange.png");
-}
-.icon-gem-blue {
-    background-image: url("../images/GemBlue.png");
+.icon-gems{
+    background-image: url("../images/gems.png");
 }
 
 .hero-description,
