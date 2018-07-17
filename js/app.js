@@ -1,6 +1,6 @@
 'use strict'
 
-const gameConfig = {
+let gameConfig = {
     player: {
         initialX: 202,
         initialY: 570,
@@ -200,6 +200,10 @@ const gameConfig = {
     }
 }
 
+let arcadeGameJSONData = {
+    totalGemCounter : 0
+}
+
 // Enemies our player must avoid
 var Enemy = function(posYAxisPixel = -11) {
     // Variables applied to each of our instances go here,
@@ -272,7 +276,7 @@ Player.prototype.update = function(dt) {
     if(this.y === gameConfig.board.squareInitialY[0]) {
       this.nextLevel(allEnemies, rockObstacle, gemReward);
     }
-    gameConfig.htmlObjects.gemCounter.innerHTML = this.gemCounter + gameConfig.player.totalGemCounter;
+    gameConfig.htmlObjects.gemCounter.innerHTML = this.gemCounter;
     gameConfig.htmlObjects.levelCounter.innerHTML = "Level " + this.level;
 };
 
@@ -304,6 +308,9 @@ Player.prototype.updateHearts = function() {
 
 Player.prototype.nextLevel = function(enemyObjectArray, rockObjectArray, gemsObjectArray) {
     if(this.level === 10) {
+        gameConfig.player.totalGemCounter += this.gemCounter;
+        arcadeGameJSONData.totalGemCounter = gameConfig.player.totalGemCounter;
+        localStorage.setItem("arcadeGameJSONData", JSON.stringify(arcadeGameJSONData));
         modalGameOverElement.innerHTML =`
         <div class="modal-game-win">
             Congratulations!!!
@@ -347,7 +354,10 @@ Player.prototype.nextLevel = function(enemyObjectArray, rockObjectArray, gemsObj
 }
 
 Player.prototype.gameOver = function() {
-     const innerHTML =`
+    gameConfig.player.totalGemCounter += this.gemCounter;
+    arcadeGameJSONData.totalGemCounter = gameConfig.player.totalGemCounter;
+    localStorage.setItem("arcadeGameJSONData", JSON.stringify(arcadeGameJSONData));
+    const innerHTML =`
      <div class="modal-game-over">
          LadyBugs Won!!!
          <img src="images/lady-bug-win.png" alt="Lady Bug Beetle smiley.">
@@ -522,6 +532,14 @@ const modalHeroSelectionElement = document.getElementById("modalHeroSelection");
 const modalGameOverElement = document.getElementById("modalGameOver");
 const playAgainElement = document.getElementById("playAgain");
 const gameOverLevelElement = document.getElementById("gameOverLevel");
+
+
+document.addEventListener("DOMContentLoaded", function() {
+    if(localStorage.getItem("arcadeGameJSONData") !== null) {
+        arcadeGameJSONData = JSON.parse(localStorage.getItem("arcadeGameJSONData"));
+    }
+    gameConfig.player.totalGemCounter = arcadeGameJSONData.totalGemCounter;
+});
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
