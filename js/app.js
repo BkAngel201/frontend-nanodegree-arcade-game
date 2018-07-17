@@ -304,7 +304,16 @@ Player.prototype.updateHearts = function() {
 
 Player.prototype.nextLevel = function(enemyObjectArray, rockObjectArray, gemsObjectArray) {
     if(this.level === 10) {
-        console.log("Juego acabado");
+        modalGameOverElement.innerHTML =`
+        <div class="modal-game-win">
+            Congratulations!!!
+            <img src="images/lady-bug-lose.png" alt="Lady Bug Beetle flying on Dandelions.">
+            <small>You Have Beaten the LadyBugs.</small>
+            <div class="divider"></div>
+            <small>You have Won ${this.gemCounter} <i class="fas fa-gem"></i></small>
+            <a href="#" data-function="playAgain">Play Again</a>
+        </div>`;
+        modalGameOverElement.classList.remove("invisible");
         this.resetPosition();
     } else {
         this.level ++;
@@ -338,10 +347,18 @@ Player.prototype.nextLevel = function(enemyObjectArray, rockObjectArray, gemsObj
 }
 
 Player.prototype.gameOver = function() {
-    let level = this.level;
+     const innerHTML =`
+     <div class="modal-game-over">
+         LadyBugs Won!!!
+         <img src="images/lady-bug-win.png" alt="Lady Bug Beetle smiley.">
+         <small>You need to be better next time to beat <br> <span>Level ${this.level}<span></small>
+         <div class="divider"></div>
+         <small>You have Won ${this.gemCounter} <i class="fas fa-gem"></i></small>
+         <a href="#" data-function="playAgain">Play Again</a>
+     </div>`;
     setTimeout(function() {
+        modalGameOverElement.innerHTML = innerHTML;
         modalGameOverElement.classList.toggle("invisible");
-        gameOverLevelElement.innerHTML = "Level " + level;
     }, 100);
 }
 
@@ -536,6 +553,9 @@ document.body.addEventListener("click", function(evt) {
         });
         document.getElementById(dataReferenceObject).classList.add("active");
         selectedHero = dataReferenceObject;
+    } else if(dataReferenceObject = evt.target.getAttribute('data-function')) {
+        modalHeroSelection.classList.remove("invisible");
+        modalGameOverElement.classList.add("invisible");
     }
 });
 
@@ -551,10 +571,6 @@ startGameButtonElement.addEventListener("click", function() {
     modalHeroSelectionElement.classList.add("invisible");
 });
 
-playAgainElement.addEventListener("click", function() {
-    modalHeroSelection.classList.remove("invisible");
-    modalGameOverElement.classList.add("invisible");
-});
 
 function checkMobileDesktop() {
      if( navigator.userAgent.match(/Android/i)

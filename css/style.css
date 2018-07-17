@@ -25,11 +25,16 @@ canvas {
 .info-panel [class$=info] {
     min-width: 130px;
 }
-.info-panel .gems-info .fas {
+.info-panel .gems-info .fas,
+.modal .fas {
     animation: ColorChange 3s linear infinite alternate;
     padding-left: 12px;
     text-shadow: 2px 2px 2px #111,
                 3px 3px 3px #333;
+}
+.modal .fas {
+    text-shadow: none;
+    padding-left: 0;
 }
 .level-info,
 .gems-info span {
@@ -55,8 +60,18 @@ canvas {
 .modal.invisible {
     display: none;
 }
+.modal small {
+    padding-bottom: 10px;
+}
+.modal .divider {
+    background-color: black;
+    height: 1px;
+    width: 80%;
+    margin: 0 auto 10px;
+}
 .modal-hero-selection,
-.modal-game-over {
+.modal-game-over,
+.modal-game-win {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -168,7 +183,8 @@ a.active .hero-name {
     padding: 20px 0;
 }
 .modal-footer a,
-.modal-game-over a {
+.modal-game-over a,
+.modal-game-win a {
     padding: 7px 12px;
     background-color: #329e39;
     color: white;
@@ -178,12 +194,15 @@ a.active .hero-name {
 .modal-footer a:hover,
 .modal-footer a:focus,
 .modal-game-over a:hover,
-.modal-game-over a:focus {
+.modal-game-over a:focus,
+.modal-game-win a:hover,
+.modal-game-win a:focus {
     background-color: #19d825;
     border-color: black;
     color: black;
 }
-.modal-game-over {
+.modal-game-over,
+.modal-game-win {
     font-size: 30px;
     text-align: center;
 }
@@ -192,7 +211,13 @@ a.active .hero-name {
     height: 150px;
     margin: 20px auto 0;
 }
-.modal-game-over a {
+.modal-game-win img {
+    width: 300px;
+    height: 300px;
+    margin: -20px auto;
+}
+.modal-game-over a,
+.modal-game-win a {
     width: 200px;
     margin: 15px auto 0;
     font-size: 20px;
