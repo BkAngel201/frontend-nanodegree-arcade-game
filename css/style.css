@@ -118,13 +118,15 @@ canvas {
                 0 0 5px rgba(0, 0, 0, .6),
                 0 0 7px rgba(0, 0, 0, .4);
 }
-.modal-body .hero-info {
+.modal-body .hero-info,
+.modal-body .help-info {
     display: flex;
     text-decoration: none;
     color: inherit;
     border: 1px solid transparent;
 }
-.hero-info {
+.hero-info,
+.help-info {
     margin: 5px 0;
 }
 .hero-info:hover,
@@ -137,7 +139,8 @@ canvas {
 .hero-info.active {
     border: 1px solid #9e3232;
 }
-[class*=char-] {
+[class*=char-],
+[class*=icon-] {
     width: 100px;
     height: 100px;
     background-position: 0 120px;
@@ -157,20 +160,40 @@ canvas {
 .char-princess-girl {
     background-image: url("../images/char-princess-girl.png");
 }
+.icon-enemy-bug {
+    background-image: url("../images/enemy-bug.png");
+    background-position: 0 110px;
+}
+.icon-rock {
+    background-image: url("../images/Rock.png");
+    background-position: 0 130px;
+}
+.icon-gem-green {
+    background-image: url("../images/GemGreen.png");
+}
+.icon-gem-orange {
+    background-image: url("../images/GemOrange.png");
+}
+.icon-gem-blue {
+    background-image: url("../images/GemBlue.png");
+}
 
-.hero-description {
+.hero-description,
+.help-description {
     padding-top: 5px;
     padding-left: 10px;
     text-align: left;
     width: 370px;
 }
-.hero-description .hero-name {
+.hero-description .hero-name,
+.help-description .help-name {
     font-size: 20px;
     font-weight: bold;
     border-bottom: 1px solid black;
     margin-bottom: 5px;
 }
-.hero-description .hero-history {
+.hero-description .hero-history,
+.help-description .help-history {
     font-size: 16px;
 }
 a:hover .hero-name,
