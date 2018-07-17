@@ -119,14 +119,16 @@ canvas {
                 0 0 7px rgba(0, 0, 0, .4);
 }
 .modal-body .hero-info,
-.modal-body .help-info {
+.modal-body .help-info,
+.modal-body .stats-info {
     display: flex;
     text-decoration: none;
     color: inherit;
     border: 1px solid transparent;
 }
 .hero-info,
-.help-info {
+.help-info,
+.stats-info {
     margin: 5px 0;
 }
 .hero-info:hover,
@@ -174,24 +176,48 @@ canvas {
 .icon-gems{
     background-image: url("../images/gems.png");
 }
+.icon-tomb-stone {
+    background-image: url("../images/TombStone.png");
+}
+.icon-finish-line {
+    background-image: url("../images/FinishLine.png");
+}
 
 .hero-description,
-.help-description {
+.help-description,
+.stats-description {
     padding-top: 5px;
     padding-left: 10px;
     text-align: left;
     width: 370px;
 }
+.stats-description {
+    display: flex;
+    font-size: 40px;
+    padding-top: 25px;
+    padding-left: 20px;
+}
 .hero-description .hero-name,
-.help-description .help-name {
+.help-description .help-name,
+.stats-description .stats-name {
     font-size: 20px;
     font-weight: bold;
     border-bottom: 1px solid black;
     margin-bottom: 5px;
 }
+.stats-description .stats-name {
+    border: none;
+    font-size: inherit;
+    min-width: 140px;
+}
 .hero-description .hero-history,
-.help-description .help-history {
+.help-description .help-history,
+.stats-description .stats-history {
     font-size: 16px;
+}
+.stats-description .stats-history {
+    font-size: inherit;
+    padding-left: 15px;
 }
 a:hover .hero-name,
 a:focus .hero-name,
