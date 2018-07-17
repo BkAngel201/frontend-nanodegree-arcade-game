@@ -120,7 +120,8 @@ canvas {
 }
 .modal-body .hero-info,
 .modal-body .help-info,
-.modal-body .stats-info {
+.modal-body .stats-info,
+.modal-body .achievements-info {
     display: flex;
     text-decoration: none;
     color: inherit;
@@ -128,7 +129,8 @@ canvas {
 }
 .hero-info,
 .help-info,
-.stats-info {
+.stats-info,
+.achievements-info {
     margin: 5px 0;
 }
 .hero-info:hover,
@@ -182,10 +184,17 @@ canvas {
 .icon-finish-line {
     background-image: url("../images/FinishLine.png");
 }
+.icon-trophy {
+    background-image: url("../images/Trophy.png");
+}
+.icon-trophy.unlocked {
+    background-image: url("../images/Trophy-unlocked.png");
+}
 
 .hero-description,
 .help-description,
-.stats-description {
+.stats-description,
+.achievements-description {
     padding-top: 5px;
     padding-left: 10px;
     text-align: left;
@@ -199,7 +208,8 @@ canvas {
 }
 .hero-description .hero-name,
 .help-description .help-name,
-.stats-description .stats-name {
+.stats-description .stats-name,
+.achievements-description .achievements-name {
     font-size: 20px;
     font-weight: bold;
     border-bottom: 1px solid black;
@@ -212,7 +222,8 @@ canvas {
 }
 .hero-description .hero-history,
 .help-description .help-history,
-.stats-description .stats-history {
+.stats-description .stats-history,
+.achievements-description .achievements-history {
     font-size: 16px;
 }
 .stats-description .stats-history {

@@ -294,11 +294,7 @@ Player.prototype.update = function(dt) {
     gameConfig.htmlObjects.gemCounter.innerHTML = this.gemCounter;
     gameConfig.htmlObjects.levelCounter.innerHTML = "Level " + this.level;
 
-    gemsStatsElement.innerHTML = arcadeGameJSONData.totalGemCounter;
-    deathsStatsElement.innerHTML = arcadeGameJSONData.totalDeath
-    winsStatsElement.innerHTML = arcadeGameJSONData.totalFinishLevel;
-
-
+    updategameInfo();
 };
 
 // Draw the player on the screen, required method for game
@@ -334,7 +330,7 @@ Player.prototype.nextLevel = function(enemyObjectArray, rockObjectArray, gemsObj
     if(this.level === 10) {
         this.achievementUnlocked();
         gameConfig.player.totalGemCounter += this.gemCounter;
-        arcadeGameJSONData.achievements = gameConfig.achievements;
+        arcadeGameJSONData.achievements = gameConfig.player.achievements;
         arcadeGameJSONData.totalGemCounter = gameConfig.player.totalGemCounter;
         localStorage.setItem("arcadeGameJSONData", JSON.stringify(arcadeGameJSONData));
         modalGameOverElement.innerHTML =`
@@ -483,22 +479,22 @@ Player.prototype.handleInput = function(keyPressed) {
     }
 }
 Player.prototype.achievementUnlocked = function() {
-    if(gameConfig.achievements.completeGame.unlocked === 0) {
-        gameConfig.achievements.completeGame.unlocked = 1;
+    if(gameConfig.player.achievements.completeGame.unlocked === 0) {
+        gameConfig.player.achievements.completeGame.unlocked = 1;
     }
-    if(gameConfig.achievements.completeGameWithoutDeath.unlocked === 0) {
+    if(gameConfig.player.achievements.completeGameWithoutDeath.unlocked === 0) {
         if(this.hearts === 3) {
-            gameConfig.achievements.completeGameWithoutDeath.unlocked = 1;
+            gameConfig.player.achievements.completeGameWithoutDeath.unlocked = 1;
         }
     }
-    if(gameConfig.achievements.completeGameWithoutCollectGems.unlocked === 0) {
+    if(gameConfig.player.achievements.completeGameWithoutCollectGems.unlocked === 0) {
         if(this.gemCounter === 0) {
-            gameConfig.achievements.completeGameWithoutCollectGems.unlocked = 1;
+            gameConfig.player.achievements.completeGameWithoutCollectGems.unlocked = 1;
         }
     }
-    if(gameConfig.achievements.collectAllGemsInAGame.unlocked === 0) {
+    if(gameConfig.player.achievements.collectAllGemsInAGame.unlocked === 0) {
         if(this.gemCounter === 70) {
-            gameConfig.achievements.collectAllGemsInAGame.unlocked = 1;
+            gameConfig.player.achievements.collectAllGemsInAGame.unlocked = 1;
         }
     }
 }
@@ -586,10 +582,8 @@ document.addEventListener("DOMContentLoaded", function() {
         arcadeGameJSONData = JSON.parse(localStorage.getItem("arcadeGameJSONData"));
     }
     gameConfig.player.totalGemCounter = arcadeGameJSONData.totalGemCounter;
-    gameConfig.achievements = arcadeGameJSONData.achievements;
-    gemsStatsElement.innerHTML = arcadeGameJSONData.totalGemCounter;
-    deathsStatsElement.innerHTML = arcadeGameJSONData.totalDeath
-    winsStatsElement.innerHTML = arcadeGameJSONData.totalFinishLevel;
+    gameConfig.player.achievements = arcadeGameJSONData.achievements;
+    updategameInfo();
 });
 
 // This listens for key presses and sends the keys to your
@@ -665,3 +659,15 @@ function checkMobileDesktop() {
         return false
       }
 }
+
+function updategameInfo() {
+    gemsStatsElement.innerHTML = arcadeGameJSONData.totalGemCounter;
+    deathsStatsElement.innerHTML = arcadeGameJSONData.totalDeath
+    winsStatsElement.innerHTML = arcadeGameJSONData.totalFinishLevel;
+
+    document.querySelectorAll("[data-rel-achievement]").forEach(function(currentValue) {
+        if(gameConfig.player.achievements[currentValue.getAttribute("data-rel-achievement")].unlocked === 1) {
+            currentValue.classList.add("unlocked");
+        }
+    });
+};
