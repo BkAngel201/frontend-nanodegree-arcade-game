@@ -5,9 +5,7 @@ let gameConfig = {
         initialX: 202,
         initialY: 570,
         totalGemCounter: 0,
-        archievements: {
-
-        }
+        achievements: {}
     },
     collision: {
         imageWidth: 75,             // correcting the with of the imagen for realistic collisions when the graphics touch each other
@@ -178,7 +176,7 @@ let gameConfig = {
             },
             gems: {
                 quantity: 5,
-                positions: [[4, 5], [3, 4], [2, 3], [1, 2], [0, 3]],
+                positions: [[4, 5], [4, 3], [2, 3], [1, 2], [0, 3]],
                 colors: ["Green", "Orange", "Blue", "Green", "Orange"]
             }
         },
@@ -203,7 +201,21 @@ let gameConfig = {
 let arcadeGameJSONData = {
     totalGemCounter : 0,
     totalDeath: 0,
-    totalFinishLevel: 0
+    totalFinishLevel: 0,
+    achievements: {
+        completeGame: {
+            unlocked: 0
+        },
+        completeGameWithoutDeath: {
+            unlocked: 0
+        },
+        collectAllGemsInAGame: {
+            unlocked: 0
+        },
+        completeGameWithoutCollectGems: {
+            unlocked: 0
+        }
+    }
 }
 
 // Enemies our player must avoid
@@ -283,7 +295,7 @@ Player.prototype.update = function(dt) {
     gameConfig.htmlObjects.levelCounter.innerHTML = "Level " + this.level;
 
     gemsStatsElement.innerHTML = arcadeGameJSONData.totalGemCounter;
-    deaathsStatsElement.innerHTML = arcadeGameJSONData.totalDeath
+    deathsStatsElement.innerHTML = arcadeGameJSONData.totalDeath
     winsStatsElement.innerHTML = arcadeGameJSONData.totalFinishLevel;
 
 
@@ -320,7 +332,9 @@ Player.prototype.nextLevel = function(enemyObjectArray, rockObjectArray, gemsObj
         arcadeGameJSONData.totalFinishLevel ++;
     }
     if(this.level === 10) {
+        this.achievementUnlocked();
         gameConfig.player.totalGemCounter += this.gemCounter;
+        arcadeGameJSONData.achievements = gameConfig.achievements;
         arcadeGameJSONData.totalGemCounter = gameConfig.player.totalGemCounter;
         localStorage.setItem("arcadeGameJSONData", JSON.stringify(arcadeGameJSONData));
         modalGameOverElement.innerHTML =`
@@ -468,6 +482,26 @@ Player.prototype.handleInput = function(keyPressed) {
 
     }
 }
+Player.prototype.achievementUnlocked = function() {
+    if(gameConfig.achievements.completeGame.unlocked === 0) {
+        gameConfig.achievements.completeGame.unlocked = 1;
+    }
+    if(gameConfig.achievements.completeGameWithoutDeath.unlocked === 0) {
+        if(this.hearts === 3) {
+            gameConfig.achievements.completeGameWithoutDeath.unlocked = 1;
+        }
+    }
+    if(gameConfig.achievements.completeGameWithoutCollectGems.unlocked === 0) {
+        if(this.gemCounter === 0) {
+            gameConfig.achievements.completeGameWithoutCollectGems.unlocked = 1;
+        }
+    }
+    if(gameConfig.achievements.collectAllGemsInAGame.unlocked === 0) {
+        if(this.gemCounter === 70) {
+            gameConfig.achievements.collectAllGemsInAGame.unlocked = 1;
+        }
+    }
+}
 
 // Our player
 var RockObstacle = function(initialX, initialY) {
@@ -543,7 +577,7 @@ const modalGameOverElement = document.getElementById("modalGameOver");
 const playAgainElement = document.getElementById("playAgain");
 const gameOverLevelElement = document.getElementById("gameOverLevel");
 const gemsStatsElement = document.getElementById("gemsStats");
-const deaathsStatsElement = document.getElementById("deathsStats");
+const deathsStatsElement = document.getElementById("deathsStats");
 const winsStatsElement = document.getElementById("winsStats");
 
 
@@ -552,8 +586,9 @@ document.addEventListener("DOMContentLoaded", function() {
         arcadeGameJSONData = JSON.parse(localStorage.getItem("arcadeGameJSONData"));
     }
     gameConfig.player.totalGemCounter = arcadeGameJSONData.totalGemCounter;
+    gameConfig.achievements = arcadeGameJSONData.achievements;
     gemsStatsElement.innerHTML = arcadeGameJSONData.totalGemCounter;
-    deaathsStatsElement.innerHTML = arcadeGameJSONData.totalDeath
+    deathsStatsElement.innerHTML = arcadeGameJSONData.totalDeath
     winsStatsElement.innerHTML = arcadeGameJSONData.totalFinishLevel;
 });
 
