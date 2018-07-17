@@ -136,6 +136,66 @@ const gameConfig = {
                 positions: [[1, 6], [4, 4], [1, 5], [3, 6]],
                 colors: ["Green", "Orange", "Blue", "Green"]
             }
+        },
+        7: {
+            ladyBugs: {
+                quantity: 6,
+                positions: [1, 2, 3, 4, 5, 6]
+            },
+            rocks: {
+                quantity: 2,
+                positions: [[1, 4], [2, 3]]
+            },
+            gems: {
+                quantity: 5,
+                positions: [[2, 4], [1, 5], [4, 6], [2, 2], [4, 1]],
+                colors: ["Green", "Orange", "Blue", "Green", "Blue"]
+            }
+        },
+        8: {
+            ladyBugs: {
+                quantity: 6,
+                positions: [1, 2, 3, 4, 5, 6]
+            },
+            rocks: {
+                quantity: 3,
+                positions: [[1, 2], [3, 5], [4, 5]]
+            },
+            gems: {
+                quantity: 5,
+                positions: [[3, 4], [4, 4], [0, 5], [2, 2], [4, 1]],
+                colors: ["Orange", "Orange", "Blue", "Green", "Blue"]
+            }
+        },
+        9: {
+            ladyBugs: {
+                quantity: 6,
+                positions: [1, 2, 3, 4, 5, 6]
+            },
+            rocks: {
+                quantity: 4,
+                positions: [[3, 5], [4, 4],[1, 3], [2, 2]]
+            },
+            gems: {
+                quantity: 5,
+                positions: [[4, 5], [3, 4], [2, 3], [1, 2], [0, 3]],
+                colors: ["Green", "Orange", "Blue", "Green", "Orange"]
+            }
+        },
+        10: {
+            ladyBugs: {
+                quantity: 6,
+                positions: [1, 2, 3, 4, 5, 6]
+            },
+            rocks: {
+                quantity: 5,
+                positions: [[0, 6], [2, 4], [4, 4], [3, 5], [1, 2]]
+            },
+            gems: {
+                quantity: 6,
+                positions: [[0, 5], [4, 5], [3, 4], [3, 6], [0, 2], [4, 2]],
+                colors: ["Green", "Orange", "Blue", "Green", "Orange", "Blue"]
+            }
         }
     }
 }
@@ -243,7 +303,7 @@ Player.prototype.updateHearts = function() {
 }
 
 Player.prototype.nextLevel = function(enemyObjectArray, rockObjectArray, gemsObjectArray) {
-    if(this.level === 6) {
+    if(this.level === 10) {
         console.log("Juego acabado");
         this.resetPosition();
     } else {
@@ -278,8 +338,10 @@ Player.prototype.nextLevel = function(enemyObjectArray, rockObjectArray, gemsObj
 }
 
 Player.prototype.gameOver = function() {
+    let level = this.level;
     setTimeout(function() {
         modalGameOverElement.classList.toggle("invisible");
+        gameOverLevelElement.innerHTML = "Level " + level;
     }, 100);
 }
 
@@ -442,6 +504,7 @@ const startGameButtonElement = document.getElementById("startGame");
 const modalHeroSelectionElement = document.getElementById("modalHeroSelection");
 const modalGameOverElement = document.getElementById("modalGameOver");
 const playAgainElement = document.getElementById("playAgain");
+const gameOverLevelElement = document.getElementById("gameOverLevel");
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
