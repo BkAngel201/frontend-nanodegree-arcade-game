@@ -578,7 +578,11 @@ document.body.addEventListener("click", function(evt) {
         document.querySelectorAll("[data-toggle=modal]").forEach(function(currentValue) {
             currentValue.classList.add("invisible");
         });
+        document.querySelectorAll("[data-section-reference]").forEach(function(currentValue) {
+            currentValue.classList.remove("active");
+        });
         document.getElementById(dataReferenceObject).classList.remove("invisible");
+        evt.target.classList.add("active");
     }
 });
 
