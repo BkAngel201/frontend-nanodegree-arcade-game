@@ -565,7 +565,7 @@ document.addEventListener("touchstart", function(evt) {
 
 document.body.addEventListener("click", function(evt) {
     let dataReferenceObject;
-    if(dataReferenceObject = evt.target.getAttribute("data-reference")) {
+    if(dataReferenceObject = evt.target.getAttribute('data-reference')) {
         heroInfoElement.forEach(function(currentValue) {
           currentValue.className = "hero-info";
         });
@@ -574,6 +574,11 @@ document.body.addEventListener("click", function(evt) {
     } else if(dataReferenceObject = evt.target.getAttribute('data-function')) {
         modalHeroSelection.classList.remove("invisible");
         modalGameOverElement.classList.add("invisible");
+    } else if(dataReferenceObject = evt.target.getAttribute('data-section-reference')) {
+        document.querySelectorAll("[data-toggle=modal]").forEach(function(currentValue) {
+            currentValue.classList.add("invisible");
+        });
+        document.getElementById(dataReferenceObject).classList.remove("invisible");
     }
 });
 

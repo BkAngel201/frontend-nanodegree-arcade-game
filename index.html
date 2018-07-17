@@ -21,69 +21,82 @@
         </div>
     </div>
     <div class="modal" id="modalHeroSelection">
-        <div class="modal-hero-selection">
+        <div class="modal-general">
             <div class="modal-header">
                 <ul>
-                    <li><a href="#" class="active">Hero Selection</a></li>
-                    <li><a href="#">Archievements</a></li>
+                    <li><a href="#" data-section-reference="heroSelection" class="active">Hero Selection</a></li>
+                    <li><a href="#" data-section-reference="playerStatistics">Statistics</a></li>
+                    <li><a href="#" data-section-reference="playerAchievements">Achievements</a></li>
+                    <li><a href="#" data-section-reference="gameHelp">Help</a></li>
                 </ul>
             </div>
             <div class="modal-body">
-                <a class="hero-info active" href="#" id="heroBoy" data-reference="heroBoy">
-                    <div class="hero-icon char-boy" data-reference="heroBoy"></div>
-                    <div class="hero-description" data-reference="heroBoy">
-                        <div class="hero-name" data-reference="heroBoy">
-                            Boy
+                <div id="heroSelection" data-toggle="modal">
+                    <a class="hero-info active" href="#" id="heroBoy" data-reference="heroBoy">
+                        <div class="hero-icon char-boy" data-reference="heroBoy"></div>
+                        <div class="hero-description" data-reference="heroBoy">
+                            <div class="hero-name" data-reference="heroBoy">
+                                Boy
+                            </div>
+                            <div class="hero-history" data-reference="heroBoy">
+                                After a long day of work in the forest, nothing is better than a bath in the river. Hope it is warm.
+                            </div>
                         </div>
-                        <div class="hero-history" data-reference="heroBoy">
-                            After a long day of work in the forest, nothing is better than a bath in the river. Hope it is warm.
+                    </a>
+                    <a class="hero-info" href="#" id="heroCat" data-reference="heroCat">
+                        <div class="hero-icon char-cat-girl" data-reference="heroCat"></div>
+                        <div class="hero-description" data-reference="heroCat">
+                            <div class="hero-name" data-reference="heroCat">
+                                Cat Girl
+                            </div>
+                            <div class="hero-history" data-reference="heroCat">
+                                Everybody knows that fishes live in the water, and this little cat knows it better than anyone.
+                            </div>
                         </div>
-                    </div>
-                </a>
-                <a class="hero-info" href="#" id="heroCat" data-reference="heroCat">
-                    <div class="hero-icon char-cat-girl" data-reference="heroCat"></div>
-                    <div class="hero-description" data-reference="heroCat">
-                        <div class="hero-name" data-reference="heroCat">
-                            Cat Girl
+                    </a>
+                    <a class="hero-info" href="#" id="heroHorn" data-reference="heroHorn">
+                        <div class="hero-icon char-horn-girl" data-reference="heroHorn"></div>
+                        <div class="hero-description" data-reference="heroHorn">
+                            <div class="hero-name" data-reference="heroHorn">
+                                Horn Girl
+                            </div>
+                            <div class="hero-history" data-reference="heroHorn">
+                                The drought has hit her tribe very hard, her mission is life or death. The tribe needs her to bring back the water.
+                            </div>
                         </div>
-                        <div class="hero-history" data-reference="heroCat">
-                            Everybody knows that fishes live in the water, and this little cat knows it better than anyone.
+                    </a>
+                    <a class="hero-info" href="#" id="heroPink" data-reference="heroPink">
+                        <div class="hero-icon char-pink-girl" data-reference="heroPink"></div>
+                        <div class="hero-description" data-reference="heroPink">
+                            <div class="hero-name" data-reference="heroPink">
+                                Pink Girl
+                            </div>
+                            <div class="hero-history" data-reference="heroPink">
+                                So many years eating candy have teached this little girl that brush her tooth is really important.
+                            </div>
                         </div>
-                    </div>
-                </a>
-                <a class="hero-info" href="#" id="heroHorn" data-reference="heroHorn">
-                    <div class="hero-icon char-horn-girl" data-reference="heroHorn"></div>
-                    <div class="hero-description" data-reference="heroHorn">
-                        <div class="hero-name" data-reference="heroHorn">
-                            Horn Girl
+                    </a>
+                    <a class="hero-info" href="#" id="heroPrincess" data-reference="heroPrincess">
+                        <div class="hero-icon char-princess-girl" data-reference="heroPrincess"></div>
+                        <div class="hero-description" data-reference="heroPrincess">
+                            <div class="hero-name" data-reference="heroPrincess">
+                                Princess
+                            </div>
+                            <div class="hero-history" data-reference="heroPrincess">
+                                This little princess believe in fairy tale, she heard that in the river could be a Prince Frog and she is looking for it.
+                            </div>
                         </div>
-                        <div class="hero-history" data-reference="heroHorn">
-                            The drought has hit her tribe very hard, her mission is life or death. The tribe needs her to bring back the water.
-                        </div>
-                    </div>
-                </a>
-                <a class="hero-info" href="#" id="heroPink" data-reference="heroPink">
-                    <div class="hero-icon char-pink-girl" data-reference="heroPink"></div>
-                    <div class="hero-description" data-reference="heroPink">
-                        <div class="hero-name" data-reference="heroPink">
-                            Pink Girl
-                        </div>
-                        <div class="hero-history" data-reference="heroPink">
-                            So many years eating candy have teached this little girl that brush her tooth is really important.
-                        </div>
-                    </div>
-                </a>
-                <a class="hero-info" href="#" id="heroPrincess" data-reference="heroPrincess">
-                    <div class="hero-icon char-princess-girl" data-reference="heroPrincess"></div>
-                    <div class="hero-description" data-reference="heroPrincess">
-                        <div class="hero-name" data-reference="heroPrincess">
-                            Princess
-                        </div>
-                        <div class="hero-history" data-reference="heroPrincess">
-                            This little princess believe in fairy tale, she heard that in the river could be a Prince Frog and she is looking for it.
-                        </div>
-                    </div>
-                </a>
+                    </a>
+                </div>
+                <div class="invisible" id="playerStatistics" data-toggle="modal">
+                    player statistics
+                </div>
+                <div class="invisible" id="playerAchievements" data-toggle="modal">
+                    Player Achievements
+                </div>
+                <div class="invisible" id="gameHelp" data-toggle="modal">
+                    game Help
+                </div>
             </div>
             <div class="modal-footer">
                 <a href="#" id="startGame">Start the Game</a>
@@ -91,7 +104,7 @@
         </div>
     </div>
     <div class="modal invisible" id="modalGameOver">
-        
+
     </div>
 
     <script src="js/resources.js"></script>
